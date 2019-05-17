@@ -23,18 +23,32 @@ namespace WebApplicationAngular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSwaggerGen(config => { config.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Mat test API Documentation", Version = "v1" }); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //app.UseAngularCliServer();
+
+            //E010925: add swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mat API Documentation");
+            });
+
+            /*
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                //@TODO E010925 - error
+                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                //{
+                //  HotModuleReplacement = true
+                //});
+
+
             }
             else
             {
@@ -53,6 +67,7 @@ namespace WebApplicationAngular
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+            */
         }
     }
 }
